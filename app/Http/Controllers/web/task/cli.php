@@ -65,24 +65,27 @@ class cli extends Controller
             return redirect()->back();
         }
     }
-    // public function AddProg(Request $request, $id)
-    // {
-    //     $rule = [
-    //         'stat' => 'required',
-    //         'note' => 'required',
-    //     ];
-    //     $request->validate($rule);
-    //     try {
-    //         $by = $this->CLIEMP_Auth()->id;
-    //         DB::transaction(function () use ($id, $request, $by) {
-    //             $this->AddNewProg($id, $request->stat, $by, $request->note);
-    //         });
-    //         $this->AddSysLog($by, "Add New Task Prog = $request->id");
-    //         $this->ViewHent(__("app.Succ.AddTaskProg"), "Success");
-    //         return redirect()->back();
-    //     } catch (\Exception $th) {
-    //         $this->ViewAlert($th->getMessage(), "Danger");
-    //         return redirect()->back();
-    //     }
-    // }
+    public function AddRate(Request $request)
+    {
+        // return $request;
+        $rule = [
+            'task' => 'required',
+            'rate' => 'required|min:1|max:5',
+            'emp' => 'required',
+        ];
+        $request->validate($rule);
+        try {
+            $by = $this->CLI_Auth();
+            DB::transaction(function () use ($request, $by) {
+                $this->AddRateForTaskByClient($request->emp, $request->task, $request->rate, $request->note, $by->id);
+                $this->AddNewProg(1, $request->task, $by->id, __("app.task.prog.AddRate"));
+            });
+            $this->AddSysLog($by, "Add Rate For Task = $request->task");
+            $this->ViewHent(__("app.succ.AddRate"), "Success");
+            return redirect()->back();
+        } catch (\Exception $th) {
+            $this->ViewAlert($th->getMessage(), "Danger");
+            return redirect()->back();
+        }
+    }
 }

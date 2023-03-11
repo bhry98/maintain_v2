@@ -150,11 +150,19 @@
             // @formatter:on
         </script>
         @php
-            foreach ($all_task_pie as $v) {
-                $pie['series'][] = $v->tasks;
-                $pie['labels'][] = $v->name;
+            
+            if (count($all_task_pie) > 0) {
+                foreach ($all_task_pie as $v) {
+                    $pie['series'][] = $v->tasks;
+                    $pie['labels'][] = $v->name;
+                }
+            } else {
+                $pie['series'] = [];
+                $pie['labels'] = [];
             }
+            
             // @json($pie)
+            
         @endphp
 
         <script>

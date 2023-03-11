@@ -52,6 +52,7 @@ Route::group(
             function () {
                 Route::get('/Add', [task::class, 'ViewAdd'])->name('ViewAdd');
                 Route::post('/Add', [task::class, 'Add'])->name('Add');
+                Route::post('/Add-Rate', [task::class, 'AddRate'])->name('AddRate');
                 Route::get('/All', [task::class, 'All'])->name('All');
                 Route::get('{id}/Details', [task::class, 'Details'])->name('Details');
 

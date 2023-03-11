@@ -30,7 +30,7 @@
                     <option value="">....</option>
 
                     @foreach ($role as $R)
-                        <option value="{{ $R->id }}">{{ $R->name }} | ({{ $R->code }})</option>
+                        <option value="{{ $R->id }}">{{ $R->name[$Local] }} | ({{ $R->code }})</option>
                     @endforeach
                 </select>
                 @error('role')

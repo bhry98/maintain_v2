@@ -49,51 +49,51 @@ class emp extends Controller
     //         return redirect()->back();
     //     }
     // }
-    // public function ViewEdit($code)
-    // {
-    //     $data = [
-    //         'dep' => $this->GetDepByCode($code),
-    //         'emp' => $this->GetSelectCli(true),
-    //     ];
-    //     return view('Emp::dep.edit', $data);
-    // }
+    public function ViewEdit($code)
+    {
+        $data = [
+            'dep' => $this->GetDepByCode($code),
+            'emp' => $this->GetSelectCli(true),
+        ];
+        return view('dep.edit.emp', $data);
+    }
     public function All()
     {
         return view('dep.all.emp');
     }
-    // public function Edit(Request $request, $code)
-    // {
-    //     // return $request;
-    //     $dep = $this->GetDepByCode($code);
-    //     $rule = [
-    //         'name.ar' => 'required',
-    //         'code' => 'required|regex:/^\S*$/u|unique:dep,code,' . $dep->id,
-    //         'mang' => 'required',
-    //         'level' => 'required|numeric|min:0|max:5',
-    //     ];
-    //     $request->validate($rule);
-    //     //add to database
-    //     try {
-    //         $by = $this->EMP_Auth()->id;
-    //         DB::transaction(function () use ($request, $by, $dep) {
-    //             $this->EditDep(
-    //                 $dep->id,
-    //                 $request->name,
-    //                 $request->mang,
-    //                 $request->code,
-    //                 $request->level,
-    //                 $request->note,
-    //                 $by,
-    //             );
-    //         });
-    //         $this->AddSysLog($by, "Edit dep code = $request->code");
-    //         $this->ViewHent(__("app.Succ.EditDep"), "Success");
-    //         return redirect()->route('emp.dep.ViewEdit', $request->code);
-    //     } catch (\Exception $th) {
-    //         $this->ViewAlert($th->getMessage(), "Danger");
-    //         return redirect()->back();
-    //     }
-    // }
+    public function Edit(Request $request, $code)
+    {
+        // return $request;
+        $dep = $this->GetDepByCode($code);
+        $rule = [
+            'name' => 'required',
+            'code' => 'required|regex:/^\S*$/u|unique:dep,code,' . $dep->id,
+            'mang' => 'required',
+            'level' => 'required|numeric|min:0|max:5',
+        ];
+        $request->validate($rule);
+        //add to database
+        try {
+            $by = $this->EMP_Auth()->id;
+            DB::transaction(function () use ($request, $by, $dep) {
+                $this->EditDep(
+                    $dep->id,
+                    $request->name,
+                    $request->mang,
+                    $request->code,
+                    $request->level,
+                    $request->note,
+                    $by,
+                );
+            });
+            $this->AddSysLog($by, "Edit dep code = $request->code");
+            $this->ViewHent(__("app.succ.EditDep"), "Success");
+            return redirect()->route('emp.dep.ViewEdit', $request->code);
+        } catch (\Exception $th) {
+            $this->ViewAlert($th->getMessage(), "Danger");
+            return redirect()->back();
+        }
+    }
     public function Add(Request $request)
     {
         // return $request;

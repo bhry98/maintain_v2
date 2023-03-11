@@ -26,4 +26,19 @@ trait MachTrait
             'updated_by' => null,
         ]);
     }
+    public function EditMach($id, $created_by, $name, $code, $dep_id, $details = null)
+    {
+        return MachM::where('id', '=', $id)->firstOrFail()->update([
+            'name' => $name,
+            'code' => $code,
+            'dep_id' => $dep_id,
+            'details' => $details,
+            'updated_at' => config('app.date.now'),
+            'updated_by' => $created_by,
+        ]);
+    }
+    public function GetMachByCode($code)
+    {
+        return MachM::where('code', '=', $code)->firstOrFail();
+    }
 }

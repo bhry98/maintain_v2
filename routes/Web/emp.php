@@ -183,7 +183,8 @@ Route::group(
             function () {
                 Route::get('/Add', [mach::class, 'ViewAdd'])->name('ViewAdd');
                 Route::post('/Add', [mach::class, 'Add'])->name('Add');
-                // Route::get('/{code}/Edit', [mach::class, 'ViewEdit'])->name('ViewEdit');
+                Route::get('/{code}/Edit', [mach::class, 'ViewEdit'])->name('ViewEdit');
+                Route::post('/{code}/Edit', [mach::class, 'Edit'])->name('Edit');
                 Route::post('/{code}/Action', [mach::class, 'Action'])->name('Action');
                 Route::get('/All', [mach::class, 'All'])->name('All');
                 Route::get('/{code}/Details', [mach::class, 'Details'])->name('Details');
@@ -203,6 +204,8 @@ Route::group(
                 Route::get('/Add', [task::class, 'ViewAdd'])->name('ViewAdd');
                 Route::post('/Add', [task::class, 'Add'])->name('Add');
                 Route::post('/MoveToWS', [task::class, 'MoveToWS'])->name('MoveToWS');
+                Route::post('/AppToEmp', [task::class, 'AppToEmp'])->name('AppToEmp');
+                Route::post('/EndByEmp', [task::class, 'EndByEmp'])->name('EndByEmp');
                 Route::post('/AppToMy', [task::class, 'AppToMy'])->name('AppToMy');
                 Route::post('/End', [task::class, 'End'])->name('End');
                 Route::get('/Work-Shop', [task::class, 'AllMyWsTask'])->name('AllMyWsTask');

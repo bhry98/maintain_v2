@@ -20,6 +20,7 @@
                             <th>{{ __('app.mach.table.Dep') }}</th>
                             <th>{{ __('app.mach.table.TTask') }}</th>
                             <th>..</th>
+                            <th>..</th>
 
                         </tr>
                     </thead>
@@ -34,6 +35,10 @@
                                     <td>
                                         <a
                                             href="{{ route('emp.mach.Details', $m->code) }}">{{ __('app.mach.Details') }}</a>
+                                    </td>
+                                    <td>
+                                        <a
+                                            href="{{ route('emp.mach.Edit', $m->code) }}">{{ __('app.mach.Edit') }}</a>
                                     </td>
                                 </tr>
                             @endforeach

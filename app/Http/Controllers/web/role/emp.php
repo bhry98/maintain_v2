@@ -61,6 +61,7 @@ class emp extends Controller
     }
     public function Edit(Request $request, $code)
     {
+        // return $request;
         $r = $this->GetRoleByCode($code);
         $rule = [
             'name.ar' => 'required',
@@ -68,9 +69,8 @@ class emp extends Controller
             'role' => 'required|array|min:1',
         ];
         $request->validate($rule);
-
         try {
-            $by = $this->EMP_Auth();
+            $by = $this->EMP_Auth();    
             DB::transaction(function () use ($r, $request, $by) {
                 $role = $this->EditRole(
                     $r->id,
@@ -80,7 +80,7 @@ class emp extends Controller
                     $by->id,
                     $request->note,
                 );
-                $this->AddSysLog($by->id, "Add New Role = $role->id");
+                $this->AddSysLog($by->id, "Edit Role = $role->id");
             });
             $this->ViewHent(__("app.succ.EditRole"), "Success");
             return redirect()->back();

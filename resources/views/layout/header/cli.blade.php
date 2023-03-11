@@ -12,12 +12,16 @@
         <div class="navbar-nav flex-row order-md-last">
             <div class="nav-item d-none d-md-flex me-3">
                 <div class="btn-list">
-                   
+
                 </div>
             </div>
             <div class="d-none d-md-flex">
-                {{-- <cli-noti-task not="{{ $User->work_shop_id }}" local="{{ $Local }}"></cli-noti-task>
-                <cli-noti local="{{ $Local }}" not="{{ $User->id }}"></cli-noti> --}}
+                {{-- @can('noti-task')
+                    @livewire('noti.cli.task')
+                @endcan --}}
+                @can('noti-sys')
+                    @livewire('noti.cli.sys')
+                @endcan
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown"

@@ -27,18 +27,24 @@ class emp extends Controller
     {
         return view('task.ws.emp');
     }
-    // public function EndByEmp(Request $request, $task_id)
-    // {
-    //     // return $task_id;
-    //     $done = $this->EndTaskByEmp($task_id, $request->note);
-    //     if ($done) {
-    //         $task = $this->GetTaskById($task_id);
-    //         $this->SendNewNoti($this->EMP_Auth()->id, $task->client_id, "تم انهاء الطلب", "تم انهاء الطلب كود ($task->id) بنجاح", 1);
-    //         return $this->Return200('تم انهاء الطلب');
-    //     } else {
-    //         return $this->Return404(__("app.Errors.SWW"));
-    //     }
-    // }
+    public function EndByEmp(Request $request)
+    {
+        // return $request;
+        $by = $this->EMP_Auth();
+        if ($request->task && $request->note) {
+            DB::transaction(function () use ($request, $by) {
+                $t = $this->GetTaskById($request->task);
+                $this->EndTaskByEmp($request->task, $request->note);
+                $this->SendNewNoti($by->id, $t->cli_id, "تم انهاء الطلب برجاء التقييم", route('cli.task.Details', $request->task), 1);
+            });
+            $this->AddSysLog($by->id, "End Task By My = $request->task");
+            $this->ViewHent(__("app.succ.EndTask"), "Success");
+            return redirect()->back();
+        } else {
+            $this->ViewAlert(__("app.errors.SWW"), "Danger");
+            return redirect()->back();
+        }
+    }
     public function End(Request $request)
     {
         if ($request->task && $request->note) {
@@ -120,9 +126,27 @@ class emp extends Controller
             return redirect()->back();
         }
     }
+    public function AppToEmp(Request $request)
+    {
+        if ($request->task && $request->emp_take) {
+            // $by = $this->EMP_Auth();
+            $tas =   $this->GetTaskForMyByEmp($request->task, $request->emp_take);
+            if ($tas) {
+                $this->AddNewProg(null, $request->task, $request->emp_take, __("app.task.prog.AppToEmp"));
+                return redirect()->back();
+            } else {
+                $this->ViewAlert(__("app.Errddddors.SWW"), "Danger");
+                return redirect()->back();
+            }
+        } else {
+            $this->ViewAlert(__("app.errors.SWW"), "Danger");
+            return redirect()->back();
+        }
+    }
     public function Details($id)
     {
-        $data = [
+        $data = [ //'id' =>$id,//@livewire('task.detail.emp', ['task_code' => $id])
+
             'ws' => $this->GetSelectWorkShop(),
             'task' => $this->GetTaskById($id),
         ];

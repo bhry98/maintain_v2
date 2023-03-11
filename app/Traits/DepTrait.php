@@ -57,6 +57,15 @@ trait DepTrait
         $dep = DepM::with('Man')->get();
         return $dep;
     }
+    public function GetDepById($id, $withIssues = false)
+    {
+        if ($withIssues) {
+            $d = DepM::where('id', '=', $id)->with('Issue')->firstOrFail();
+        } else {
+            $d = DepM::where('id', '=', $id)->firstOrFail();
+        }
+        return $d;
+    }
     public function GetDepByCode($code, $withIssues = false)
     {
         if ($withIssues) {

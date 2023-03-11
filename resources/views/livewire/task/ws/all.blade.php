@@ -84,7 +84,7 @@
                                             @if ($t->emp_id == $User->id)
                                                 11111
                                             @else
-                                                {{ $t->Emp->name }}
+                                                {{ $t->Emp == null ? '--' : $t->Emp->name }}
                                             @endif
                                         </td>
                                     @endif

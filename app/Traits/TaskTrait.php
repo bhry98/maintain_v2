@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Org\WShopM;
+use App\Models\Sys\RateM;
 use App\Models\Task\TaskHoldM;
 use App\Models\Task\TaskM;
 use App\Models\Task\TaskProgM;
@@ -198,6 +199,22 @@ trait TaskTrait
             'is_close' => null,
         ]);
     }
+    public function AddRateForTaskByClient($emp_id, $task_id, $rate, $note, $cli_id)
+    {
+        TaskM::where('id', '=', $task_id)->firstOrFail()
+            ->update([
+                'cli_done' => 1,
+                'status' => 4,
+                'is_close' => 1
+            ]);
+        return   RateM::created([
+            'emp_id' => $emp_id,
+            'task_id' => $task_id,
+            'rate' => $rate,
+            'cli_id' => $cli_id,
+            'note' => $note,
+        ]);
+    }
     public function AddNewProg($is_client = null, $task_id, $who, $do)
     {
 
@@ -231,9 +248,10 @@ trait TaskTrait
         return TaskM::where('id', '=', $task_id)
             ->firstOrFail()
             ->update([
+                'status' => 4,
                 'emp_done' => 1,
-                'emp_note' => $note,
-                'emp_end_date' => config('app.date.now'),
+                'emp_done_note' => $note,
+                'emp_end_time' => config('app.date.now'),
             ]);
     }
     public function AddFeedBackByClient($task_id, $note)

@@ -37,10 +37,10 @@
                                         {{ $d->level }}
                                     </td>
                                     <td>
-                                        <a href="{{ route('emp.dep.Detail', $d->id) }}">{{ __('app.dep.Details') }}</a>
+                                        <a href="{{ route('emp.dep.Detail', $d->code) }}">{{ __('app.dep.Details') }}</a>
                                     </td>
                                     <td>
-                                        <a href="{{ route('emp.dep.Edit', $d->id) }}">{{ __('app.dep.Edit') }}</a>
+                                        <a href="{{ route('emp.dep.Edit', $d->code) }}">{{ __('app.dep.Edit') }}</a>
                                     </td>
                                 </tr>
                             @endforeach

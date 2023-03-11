@@ -178,11 +178,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-
-
-
                                 <!--  -->
                                 <div wire:ignore.self class="modal modal-blur fade" id="modal-move-{{ $t->id }}"
                                     tabindex="-1" role="dialog" aria-hidden="true">
@@ -289,7 +284,7 @@
                                             </div>
                                             <div class="modal-body">
                                                 <div class="row">
-                                                    @if ($t->Emp != null)
+                                                    @if ($t->Emp)
                                                         <div class="col-12 mb-3">
                                                             <label
                                                                 class="form-label">{{ __('app.task.N.Emp') }}</label>

@@ -1,28 +1,28 @@
 @extends('layout.index')
 @section('title')
-    {{ __('app.role.AddNew') }}
+    {{ __('app.role.Edit') }}
 @endsection
 @section('pagetitle')
-    {{ __('app.role.AddNew') }}
+    {{ __('app.role.Edit') }}
 @endsection
 @section('page')
-    <form method="POST" action="{{ route('emp.role.Add') }}" class="row row-cards col-12 card">
+    <form method="POST" action="{{ route('emp.role.Edit', $role->code) }}" class="row row-cards col-12 card">
         @csrf
         <div class="row mb-3 card-body">
             {{--  name[ar] --}}
             <div class="col-6 mb-3">
                 <label class="form-label required">{{ __('app.role.N.Ar') }}</label>
                 <input autofocus type="text" name="name[ar]" class="form-control @error('name.ar') is-invalid @enderror"
-                    value="{{ old('name.ar') }}">
+                    value="{{ $role->name['ar'] }}">
                 @error('name.ar')
                     <span class="invalid-feedback">{{ $message }}</span>
                 @enderror
             </div>
             {{--  name[en] --}}
             <div class="col-6 mb-3">
-                <label class="form-label ">{{ __('app.role.N.Ar') }}</label>
+                <label class="form-label ">{{ __('app.role.N.En') }}</label>
                 <input type="text" name="name[en]" class="form-control @error('name.en') is-invalid @enderror"
-                    value="{{ old('name.en') }}">
+                    value="{{ $role->name['en'] }}">
                 @error('name.ar')
                     <span class="invalid-feedback">{{ $message }}</span>
                 @enderror
@@ -31,7 +31,7 @@
             <div class="col-6 mb-3">
                 <label class="form-label required">{{ __('app.role.Code') }}</label>
                 <input type="text" name="code" class="form-control @error('code') is-invalid @enderror"
-                    value="{{ old('code') }}">
+                    value="{{ $role->code }}">
                 @error('code')
                     <span class="invalid-feedback">{{ $message }}</span>
                 @enderror
@@ -40,7 +40,7 @@
             <div class="col-6 mb-3">
                 <label class="form-label ">{{ __('app.role.Note') }}</label>
                 <input type="text" name="note" class="form-control @error('note') is-invalid @enderror"
-                    value="{{ old('note') }}">
+                    value="{{ $role->note }}">
                 @error('note')
                     <span class="invalid-feedback">{{ $message }}</span>
                 @enderror
@@ -70,7 +70,8 @@
                                         <div class="col-3">
                                             <label class="form-check form-check-inline">
                                                 <input class="form-check-input" type="checkbox" name="role[]"
-                                                    value="{{ $k }}-{{ $kk }}">
+                                                    value="{{ $k }}-{{ $kk }}"
+                                                    @foreach ($role->permission as $v)  @if ($v == "$k-$kk") checked @endif @endforeach>
                                                 <span class="form-check-label">{{ $name[$Local] }}</span>
                                             </label>
                                         </div>
@@ -83,7 +84,7 @@
             </div>
             <div class="text-center">
                 <button id="btn" onclick="_submit()" type="submit" class=" col-2 btn btn-azure">
-                    {{ __('app.role.Add') }}
+                    {{ __('app.role.Edit') }}
                 </button>
             </div>
         </div>

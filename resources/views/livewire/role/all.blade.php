@@ -29,7 +29,7 @@
                             @foreach ($roles as $r)
                                 <tr>
                                     <td>{{ $r->code }}</td>
-                                    <td><a href="invoice.html" class="text-reset" tabindex="-1">Design Works</a></td>
+                                    <td>{{ $r->name[$Local] }}</td>
                                     <td>
                                         {{ count($r->permission) }}
                                     </td>

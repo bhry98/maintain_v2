@@ -82,8 +82,62 @@ class TaskM extends Model
             return __("app.Errors.SWW");
         }
     }
+    public function TotalTime()
+    {
+        $time_hold = $this->HoldTime;
+        if (count($time_hold) > 0) {
+            foreach ($time_hold as $k => $v) {
+                $v->end == null ? $hend = $this->emp_end_time : $hend = $v->end;
+                $starthold = new DateTime($v->start, new DateTimeZone(config('app.timezone')));
+                $endhold = new DateTime($hend, new DateTimeZone(config('app.timezone')));
+                $diff_ = $starthold->diff($endhold);
+                $diff_hold[] = $diff_->format('%H:%I:%S');
+            }
+            $sum = strtotime('00:00:00');
+            $totaltime = 0;
+
+            foreach ($diff_hold as $element) {
+
+                // Converting the time into seconds
+                $timeinsec = strtotime($element) - $sum;
+
+                // Sum the time with previous value
+                $totaltime = $totaltime + $timeinsec;
+            }
+
+            // Totaltime is the summation of all
+            // time in seconds
+
+            // Hours is obtained by dividing
+            // totaltime with 3600
+            $h = intval($totaltime / 3600);
+
+            $totaltime = $totaltime - ($h * 3600);
+
+            // Minutes is obtained by dividing
+            // remaining total time with 60
+            $m = intval($totaltime / 60);
+
+            // Remaining value is seconds
+            $s = $totaltime - ($m * 60);
+
+            // Printing the result
+            return "$h:$m:$s";
+        } else {
+            return null;
+        }
+        // Array containing time in string format
+        // $time = [
+        //     '00:04:04', '00:02:02',
+        // ];
+
+
+    }
     public function LiveTime()
     {
+
+
+
         $start = new DateTime($this->emp_start_time, new DateTimeZone(config('app.timezone')));
         $end = new DateTime($this->emp_end_time, new DateTimeZone(config('app.timezone')));
         $diff = $start->diff($end);

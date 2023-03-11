@@ -54,3 +54,34 @@
 ## 10-03-2023 | 04:02 PM (3)| DO =>{Add New Pur Order = 10}||##
 ## 10-03-2023 | 08:23 PM ({"id":1,"name":"\u0639\u0628\u062f\u0627\u0644\u0631\u062d\u0645\u0646 \u0639\u0645\u064a\u0644","is_mang":"1","mang_id":null,"dep_id":["1"],"username":"bhrycli","email":"bhrabdelrahman8@gmail.com","password":"$2y$10$5VPH6MSArSJxL4HzxpsGEuEjAqZ6RofoFOyPCkL4FId8jzWmmWaTG","code":"71198","role_id":"2","active":1,"created_at":"2023-03-03T17:11:09.000000Z","created_by":"1","updated_at":null,"updated_by":null})| DO =>{Add New Task = }||##
 ## 11-03-2023 | 08:49 AM (3)| DO =>{Add New Pur Order = 11}||##
+## 11-03-2023 | 01:59 PM (1)| DO =>{Edit Emp code = 71198}||##
+## 11-03-2023 | 01:59 PM (1)| DO =>{Edit Emp code = 71198}||##
+## 11-03-2023 | 02:35 PM (1)| DO =>{Edit Role = 2}||##
+## 11-03-2023 | 02:35 PM (1)| DO =>{Edit Role = 2}||##
+## 11-03-2023 | 02:35 PM (1)| DO =>{Edit Role = 2}||##
+## 11-03-2023 | 02:35 PM (1)| DO =>{Edit Role For Emp code_emp=35265 &id_role= 1}||##
+## 11-03-2023 | 02:42 PM (1)| DO =>{Edit Work Shop code = 1}||##
+## 11-03-2023 | 02:44 PM (1)| DO =>{Edit Work Shop code = 1}||##
+## 11-03-2023 | 02:51 PM (1)| DO =>{Edit Work Shop code = 1}||##
+## 11-03-2023 | 02:51 PM (1)| DO =>{Edit Work Shop code = 1}||##
+## 11-03-2023 | 03:19 PM (1)| DO =>{Edit Employee code = 012345}||##
+## 11-03-2023 | 03:20 PM (1)| DO =>{Edit Employee code = 012345}||##
+## 11-03-2023 | 03:20 PM (1)| DO =>{Edit Employee code = 452012345}||##
+## 11-03-2023 | 03:28 PM (1)| DO =>{Edit Employee code = 452012345}||##
+## 11-03-2023 | 03:41 PM (1)| DO =>{Edit dep code = sharqi}||##
+## 11-03-2023 | 03:44 PM (1)| DO =>{Edit dep code = 5010}||##
+## 11-03-2023 | 03:44 PM (1)| DO =>{Edit dep code = 5010}||##
+## 11-03-2023 | 03:44 PM (1)| DO =>{Edit dep code = 525010}||##
+## 11-03-2023 | 05:06 PM (1)| DO =>{Edit dep code = 525010}||##
+## 11-03-2023 | 05:06 PM (1)| DO =>{Edit dep code = 525010}||##
+## 11-03-2023 | 05:06 PM (1)| DO =>{Edit dep code = 525010}||##
+## 11-03-2023 | 05:06 PM (1)| DO =>{Edit dep code = 525010}||##
+## 11-03-2023 | 05:06 PM (1)| DO =>{Edit dep code = 525010}||##
+## 11-03-2023 | 05:30 PM (1)| DO =>{Edit Mach = 2}||##
+## 11-03-2023 | 05:31 PM (1)| DO =>{Edit Mach = 2}||##
+## 11-03-2023 | 05:31 PM (1)| DO =>{Edit Mach = 2}||##
+## 11-03-2023 | 07:21 PM (3)| DO =>{End Task By My = 6}||##
+## 11-03-2023 | 09:22 PM (1)| DO =>{Edit Role = 2}||##
+## 11-03-2023 | 09:35 PM (4)| DO =>{End Task By My = 3}||##
+## 11-03-2023 | 09:35 PM (4)| DO =>{End Task By My = 3}||##
+## 12-03-2023 | 12:57 AM ({"id":1,"name":"\u0639\u0628\u062f\u0627\u0644\u0631\u062d\u0645\u0646 \u0639\u0645\u064a\u0644","is_mang":"1","mang_id":null,"dep_id":["1","2"],"username":"bhrycli","email":"bhrabdelrahman8@gmail.com","password":"$2y$10$5VPH6MSArSJxL4HzxpsGEuEjAqZ6RofoFOyPCkL4FId8jzWmmWaTG","code":"71198","role_id":"1","active":1,"created_at":"2023-03-03T17:11:09.000000Z","created_by":"1","updated_at":"2023-03-11T11:59:35.000000Z","updated_by":"1"})| DO =>{Add Rate For Task = 3}||##

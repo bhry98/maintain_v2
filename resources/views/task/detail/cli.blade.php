@@ -2,104 +2,106 @@
 @section('title')
     {{ __('app.task.Details') }}
 @endsection
+@section('css')
+    <style>
+        .rate {
+            /* float: left; */
+            /* height: 46px; */
+            /* padding: 0 10px; */
+            /* text-align: center; */
+            /* margin-left: 50%;
+                                    margin-right: 50%; */
+            /* width: 50%; */
+            /* border: 3px solid green; */
+            /* padding: 10px; */
+        }
+
+        .rate:not(:checked)>input {
+            position: absolute;
+            top: -9999px;
+        }
+
+        .rate:not(:checked)>label {
+            /* float: right; */
+            width: 1em;
+            overflow: hidden;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 30px;
+            color: #ccc;
+        }
+
+        .rate:not(:checked)>label:before {
+            content: '★ ';
+        }
+
+        .rate>input:checked~label {
+            color: #ffc700;
+        }
+
+        .rate:not(:checked)>label:hover,
+        .rate:not(:checked)>label:hover~label {
+            color: #deb217;
+        }
+
+        .rate>input:checked+label:hover,
+        .rate>input:checked+label:hover~label,
+        .rate>input:checked~label:hover,
+        .rate>input:checked~label:hover~label,
+        .rate>label:hover~input:checked~label {
+            color: #c59b08;
+        }
+    </style>
+@endsection
 @section('pagetitle')
     {{ $task->tittle }}
 @endsection
 @section('subptittle')
-    @if ($task->task_id)
+    {{-- @if ($task->task_id)
         <a target="_blank" href="{{ route('emp.task.Detail', $task->task_id) }}">{{ $task->OldTask->tittle }}</a>
-    @endif
+    @endif --}}
 @endsection
 @section('action')
-    @if ($task->status == '3' && $task->emp_id == $User->id && $task->emp_start_time != null)
-        <a href="#" class="btn btn-green" data-bs-toggle="modal" data-bs-target="#modal-move">
-            {{ __('app.task.prog.Counti') }}
-        </a>
-        <div class="modal modal-blur fade" id="modal-move" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">
-                            {{ __('app.task.prog.AppTask') }}
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form action="{{ route('emp.task.AppToMy', $task->id) }}" method="post">
-                        @csrf
-                        <input type="hidden" name="task" value="{{ $task->id }}">
-                        <div class="modal-body text-center">
-                            <div class="col-12 mb-12">
-                                <label class="form-label">{{ __('app.emp.Name') }} :
-                                    {{ $User->name }}</label>
-                                <label class="form-label">{{ __('app.task.Code') }} :
-                                    {{ $task->id }}</label>
-                                <button type="submit" class="btn btn-red" data-bs-dismiss="modal">
-                                    {{ __('app.task.prog.StartTaTime') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    @endif
-    @if ($task->emp_ok == null && $task->emp_id == $User->id && $task->emp_start_time == null)
-        <a href="#" class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#modal-move">
-            {{ __('app.task.prog.AppTask') }}
-        </a>
-        <div class="modal modal-blur fade" id="modal-move" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">
-                            {{ __('app.task.prog.AppTask') }}
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form action="{{ route('emp.task.AppToMy', $task->id) }}" method="post">
-                        @csrf
-                        <input type="hidden" name="task" value="{{ $task->id }}">
-                        <div class="modal-body text-center">
-                            <div class="col-12 mb-12">
-                                <label class="form-label">{{ __('app.emp.Name') }} :
-                                    {{ $User->name }}</label>
-                                <label class="form-label">{{ __('app.task.Code') }} :
-                                    {{ $task->id }}</label>
-                                <button type="submit" class="btn btn-red" data-bs-dismiss="modal">
-                                    {{ __('app.task.prog.StartTaTime') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    @endif
     @if (
-        $task->workshop_id == $User->workshop_id &&
-            $task->emp_id == $User->id &&
-            $task->emp_ok &&
-            $task->emp_start_time &&
-            $task->emp_done == null)
+        $task->cli_id == $User->id &&
+            $task->emp_done &&
+            $task->emp_end_time &&
+            $task->cli_done == null &&
+            $task->is_close == null)
         <a href="#" class="btn btn-azure" data-bs-toggle="modal" data-bs-target="#modal-end-task">
-            {{ __('app.task.EndByEmp') }}
+            {{ __('app.task.DoneRate') }}
         </a>
         <div class="modal modal-blur fade" id="modal-end-task" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">
-                            {{ __('app.task.EndByEmp') }}
+                            {{ __('app.task.DoneRate') }}
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('emp.task.EndByEmp', $task->id) }}" method="post">
+                    <form action="{{ route('cli.task.AddRate') }}" method="post">
                         @csrf
                         <input type="hidden" name="task" value="{{ $task->id }}">
-                        <div class="modal-body text-center">
+                        <input type="hidden" name="emp" value="{{ $task->emp_id }}">
+                        <div class="modal-body ">
+                            <div class="col-12 mb-0 rate text-center">
+                                <input type="radio" id="star5" name="rate" value="5" />
+                                <label for="star5" title="text">5 Stars</label>
+                                <input type="radio" id="star4" name="rate" value="4" />
+                                <label for="star4" title="text">4 Stars</label>
+                                <input type="radio" id="star3" name="rate" value="3" />
+                                <label for="star3" title="text">3 Stars</label>
+                                <input type="radio" id="star2" name="rate" value="2" />
+                                <label for="star2" title="text">2 Stars</label>
+                                <input type="radio" id="star1" name="rate" value="1" />
+                                <label for="star1" title="text">5 Star</label>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="form-label required">ملاحظة علي الاستلام</label>
+                                <textarea required class="form-control" name="note" cols="10" rows="5"></textarea>
+                            </div>
                             <div class="col-12 mb-12">
-                                <textarea required class="form-control" name="note" cols="30" rows="10"></textarea>
-                                <br>
                                 <button type="submit" class="btn btn-red">
                                     {{ __('app.task.EndByEmp') }}
                                 </button>
@@ -109,98 +111,6 @@
                 </div>
             </div>
         </div>
-    @endif
-    @if (
-        $task->emp_ok == null &&
-            $task->emp_id == null &&
-            $task->emp_start_time == null &&
-            $task->workshop_id == $User->workshop_id)
-        <a href="#" class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#modal-move">
-            {{ __('app.task.prog.AppTask') }}
-        </a>
-        <div class="modal modal-blur fade" id="modal-move" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">
-                            {{ __('app.task.prog.AppTask') }}
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form action="{{ route('emp.task.AppToEmp', $task->id) }}" method="post">
-                        @csrf
-                        <div class="modal-body text-center">
-                            <div class="col-12 mb-12">
-                                <label class="form-label">{{ __('app.emp.Name') }}</label>
-                                <input type="hidden" name="task" value="{{ $task->id }}">
-                                <select name="emp_take" class="form-control">
-                                    <option value="">...</option>
-                                    @foreach ($task->WShop->Emps as $e)
-                                        <option value="{{ $e->id }}">{{ $e->name }}</option>
-                                    @endforeach
-                                </select>
-                                <br>
-                                <button type="submit" class="btn btn-red" data-bs-dismiss="modal">
-                                    {{ __('app.task.prog.StartTaTime') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    @endif
-    @if ($task->workshop_id == null && $task->emp_ok == null)
-        @can('task-move')
-            <a href="#" data-bs-toggle="modal" data-bs-target="#move-task">
-                {{ __('app.task.ws.Move') }}
-            </a>
-            @livewire('modal.task.move', ['task_' => $task->id])
-            {{--  --}}
-            {{-- <a href="#" class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#modal-move">
-                {{ __('app.task.ws.Move') }}
-            </a>
-            <div class="modal modal-blur fade" id="modal-move" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">
-                                ترحيل الي ورشة
-                            </h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <form action="{{ route('emp.task.MoveToWS', $task->id) }}" method="post">
-                            @csrf
-                            <div class="modal-body">
-                                <input type="hidden" name="task" value="{{ $task->id }}">
-                                <div class="col-12 mb-12">
-                                    <label class="form-label">{{ __('app.ws.Name') }}</label>
-                                    <select class="form-control" name="ws">
-                                        <option value="">.....</option>
-                                        @foreach ($ws as $w)
-                                            <option value="{{ $w->id }}">
-                                                {{ $w->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                            </div>
-                            <div class="modal-footer text-center">
-                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div> --}}
-        @endcan
-    @else
-        @can('task-end')
-            <div class="ms-2 d-inline-block">
-                <a href="{{ route('emp.task.End', $task->id) }}" class="btn btn-red @disabled($task->is_close == 1) ">
-                    {{ __('app.task.End') }}
-                </a>
-            </div>
-        @endcan
     @endif
 @endsection
 @section('page')
@@ -252,8 +162,13 @@
                     </div>
                     <div class="card-body">
                         <h5>
+                        {{$task->WShop->name}}
+                        </h5>
+                        <h5>
+                        {{$task->WShop->name}}
+                        </h5>
+                        <h5>
                             @livewire('task.detail.live-time', ['task_code' => $task->id])
-                            {{-- {{ $task->LiveTime() }} --}}
                         </h5>
                     </div>
                 </div>
