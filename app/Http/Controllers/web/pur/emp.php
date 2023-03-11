@@ -63,6 +63,9 @@ class emp extends Controller
             DB::transaction(function () use ($request, $by) {
                 $pur_order = $this->AddNewPurOrder($request->task, $by, $request->data, $request->note);
                 $taskn = $this->GetTaskById($request->task);
+                $taskn->update(['status' => '3']);
+                $this->AddHoldTimeForTask($taskn->id, "في انتظار المشتريات ($pur_order->id)");
+                $this->AddNewProg(null, $taskn->id, $by, "تم طلب مشتريات خاصة بالعطل ($pur_order->id)");
                 $this->SendNewNoti($by, $taskn->main_ok_id, "تم اضافة طلب مشتريات جديد كود ($pur_order->id) ", "Maintain/Pur/$pur_order->id/Details", 0);
                 $this->AddSysLog($by, "Add New Pur Order = $pur_order->id");
             });

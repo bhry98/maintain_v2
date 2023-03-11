@@ -222,6 +222,8 @@ trait TaskTrait
             'main_ok_id' => $emp_id,
             'main_ok' => '1',
             'main_ok_time' => config('app.date.now'),
+            'emp_id' => null,
+            'status' => 1,
         ]);
     }
     public function EndTaskByEmp($task_id, $note)

@@ -11,7 +11,39 @@
     @endif
 @endsection
 @section('action')
-    @if ($task->emp_id == null && $task->emp_ok == null && $task->emp_start_time == null)
+    @if ($task->status == '3' && $task->emp_id == $User->id && $task->emp_start_time != null)
+        <a href="#" class="btn btn-green" data-bs-toggle="modal" data-bs-target="#modal-move">
+            {{ __('app.task.prog.Counti') }}
+        </a>
+        <div class="modal modal-blur fade" id="modal-move" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            {{ __('app.task.prog.AppTask') }}
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('emp.task.AppToMy', $task->id) }}" method="post">
+                        @csrf
+                        <input type="hidden" name="task" value="{{ $task->id }}">
+                        <div class="modal-body text-center">
+                            <div class="col-12 mb-12">
+                                <label class="form-label">{{ __('app.emp.Name') }} :
+                                    {{ $User->name }}</label>
+                                <label class="form-label">{{ __('app.task.Code') }} :
+                                    {{ $task->id }}</label>
+                                <button type="submit" class="btn btn-red" data-bs-dismiss="modal">
+                                    {{ __('app.task.prog.StartTaTime') }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endif
+    @if ($task->emp_ok == null && $task->emp_id == $User->id && $task->emp_start_time == null)
         <a href="#" class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#modal-move">
             {{ __('app.task.prog.AppTask') }}
         </a>
@@ -45,7 +77,12 @@
     @endif
     @if ($task->workshop_id == null && $task->emp_ok == null)
         @can('task-move')
-            <a href="#" class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#modal-move">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#move-task">
+                {{ __('app.task.ws.Move') }}
+            </a>
+            @livewire('modal.task.move', ['task_' => $task->id])
+            {{--  --}}
+            {{-- <a href="#" class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#modal-move">
                 {{ __('app.task.ws.Move') }}
             </a>
             <div class="modal modal-blur fade" id="modal-move" tabindex="-1" role="dialog" aria-hidden="true">
@@ -79,7 +116,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         @endcan
     @else
         @can('task-end')
@@ -130,7 +167,7 @@
                     </h5>
                 </div>
             </div>
-            @if ($task->EShop)
+            @if ($task->WShop)
                 <br>
                 <div class="card">
                     <div class="card-header">
@@ -139,8 +176,8 @@
                         </h3>
                     </div>
                     <div class="card-body">
-                        <h5>
-                            {{ $task->details }}
+                        <h5 wire:poll.1s>
+                            {{ $task->LiveTime() }}
                         </h5>
                     </div>
                 </div>
@@ -264,12 +301,11 @@
                         </li>
                         <li class="step-item @if ($task->workshop_id == null && $task->emp_ok == null) active @endif">
                             {{ __('app.task.step.MainOk') }}
-
                         </li>
-                        <li class="step-item @if ($task->emp_id == null && $task->emp_ok == null && $task->emp_start_time == null) active @endif">
+                        <li class="step-item  @if ($task->emp_ok == null && $task->emp_start_time == null) active @endif">
                             {{ __('app.task.step.EmpOk') }}
                         </li>
-                        <li class="step-item @if ($task->emp_done == null && $task->emp_ok && $task->is_close == null) active @endif">
+                        <li class="step-item  @if ($task->emp_done == null && $task->emp_ok && $task->is_close == null) active @endif">
                             {{ __('app.task.step.InWork') }}
                         </li>
                     </ul>

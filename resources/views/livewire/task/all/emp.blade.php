@@ -26,22 +26,26 @@
 
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody wire:poll.1s>
 
                         {{-- {{dd($task)}} --}}
                         @if (count($task) > 0)
                             @foreach ($task as $t)
                                 <tr>
-                                    <td>{{ $t->id }}</td>
+                                    <td>{{ $t->id }}
+                                        @if ($t->task_id)
+                                            ({{ $t->task_id }})
+                                        @endif
+                                    </td>
                                     <td>{{ $t->Dep->name }}</td>
-                                    @if ($t->task_id==null)
-                                    <td>{{ $t->Client->name }}</td>
+                                    @if ($t->task_id == null)
+                                        <td>{{ $t->Client->name }}</td>
                                     @else
-                                    <td>{{ $t->EmpH->name }}</td>
+                                        <td>{{ $t->EmpH->name }}</td>
                                     @endif
                                     <td>{{ $t->order_time->format(config('app.date.format')) }}</td>
                                     <td>{!! $t->Status($t->status) !!}</td>
-                                    <td>
+                                    {{-- <td>
                                         @if ($t->WShop == null)
                                             <a href="#" data-bs-toggle="modal"
                                                 data-bs-target="#modal-move-{{ $t->id }}">
@@ -80,6 +84,37 @@
                                                 </svg>
                                             </a>
                                         @endif
+                                    </td> --}}
+                                    <td>
+                                        @if ($t->WShop)
+                                            @if ($t->emp_ok && $t->emp_start_time)
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="icon icon-tabler icon-tabler-lock" width="24"
+                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                    stroke="currentColor" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path
+                                                        d="M5 11m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z">
+                                                    </path>
+                                                    <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                                    <path d="M8 11v-4a4 4 0 0 1 8 0v4"></path>
+                                                </svg>
+                                                {{ $t->WShop->name }}
+                                                ({{ $t->Emp == null ? '---' : $t->Emp->username }})
+                                            @else
+                                                <a href="#" data-bs-toggle="modal"
+                                                    data-bs-target="#move-{{ $t->id }}">
+                                                    {{ $t->WShop->name }}
+                                                    ({{ $t->Emp == null ? '---' : $t->Emp->username }})
+                                                </a>
+                                            @endif
+                                        @else
+                                            <a href="#" data-bs-toggle="modal"
+                                                data-bs-target="#move-{{ $t->id }}">
+                                                {{ __('app.task.ws.Move') }}
+                                            </a>
+                                        @endif
                                     </td>
                                     <td>
                                         <a href="{{ route('emp.task.Detail', $t->id) }}">
@@ -90,6 +125,62 @@
                                         {{ $emp }}
                                     </td> --}}
                                 </tr>
+
+
+                                <!--  -->
+                                <div wire:ignore.self class="modal modal-blur fade" id="move-{{ $t->id }}"
+                                    tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">
+                                                    {{ __('app.task.ws.Move') }}
+                                                </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <form wire:submit.prevent="MoveTask({{ $t->id }})">
+                                                <div class="modal-body">
+                                                    <div class="col-12 mb-12">
+                                                        <label class="form-label">{{ __('app.ws.Name') }}</label>
+                                                        <select class="form-control" wire:model='GetSelectEmp'>
+                                                            <option value="">.....</option>
+                                                            @foreach ($ws as $w)
+                                                                <option value="{{ $w->id }}">
+                                                                    {{ $w->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <br>
+                                                    @if (!is_null($GetSelectEmp))
+                                                        <div class="col-12 mb-12">
+                                                            <label class="form-label">{{ __('app.ws.Name') }}</label>
+                                                            <select class="form-control" wire:model='select_emp'>
+                                                                <option value="">.....</option>
+                                                                @foreach ($emp as $e)
+                                                                    <option value="{{ $e->id }}">
+                                                                        {{ $e->name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    @endif
+                                                </div>
+
+                                                <div class="modal-footer text-center">
+                                                    <button type="submit" class="btn btn-primary"
+                                                        data-bs-dismiss="modal">
+                                                        {{ __('app.task.ws.Move') }}
+                                                    </button>
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
 
 
                                 <!--  -->
@@ -145,7 +236,8 @@
                                             </div>
                                             <form wire:submit.prevent="MoveToEmp({{ $t->id }})">
                                                 <div class="modal-body">
-                                                    <input type="hidden" name="task" value="{{ $t->id }}">
+                                                    <input type="hidden" name="task"
+                                                        value="{{ $t->id }}">
                                                     <div class="col-12 mb-12">
                                                         <label class="form-label">{{ __('app.emp.Name') }}</label>
                                                         <select class="form-control" wire:model='emp_id_select'>

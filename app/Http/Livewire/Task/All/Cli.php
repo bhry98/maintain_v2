@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Task\All;
 
 use App\Models\Task\TaskM;
 use App\Traits\TaskTrait;
+use DateTime;
 use Livewire\Component;
 
 class Cli extends Component
@@ -25,6 +26,8 @@ class Cli extends Component
                 }
             }
         }
+        // new DateTime($tas[1]->emp_end_time);
+        
         //
         $this->by = $this->CLI_Auth();
         if ($this->search != null) {

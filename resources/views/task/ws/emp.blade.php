@@ -8,6 +8,7 @@
 
 @section('page')
     @livewire('task.ws.all')
+    {{-- {{phpinfo()}} --}}
     {{-- <div class="card">
         <div dir="ltr" class="card-body">
             <livewire:task-for-main/>

@@ -3,8 +3,8 @@
 return [
 
 
-    'date' => [//now(config('app.timezone'))
-        'now' =>now(config('app.timezone')),
+    'date' => [ //now(config('app.timezone'))
+        'now' => now('Africa/Cairo'),
         'format' => 'd-m-Y | h:i A'
     ],
     'name' => env('APP_NAME', 'B-TMS'),

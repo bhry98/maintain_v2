@@ -4,12 +4,14 @@ namespace App\Traits;
 
 use App\Models\Pur\PurItemM;
 use App\Models\Pur\PurOrderM;
+use App\Models\Task\TaskM;
 
 /**
  * 
  */
 trait PurTrait
 {
+    use TaskTrait, NoteTrait;
     public function AddNewPurOrder($task_id, $by, $items = [], $note)
     {
 
@@ -109,7 +111,10 @@ trait PurTrait
          * 1 = main_ok &main_ok_date
          * 2 = main_done &main_done_date
          */
+        $pur = PurOrderM::where('id', '=', $pur_id)
+            ->firstOrFail();
         if ($action == 1) {
+            $this->SendNewNoti($emp_id, $pur->created_at, __("app.noti.PurMainSend"), route('emp.pur.Details', $pur->id), 0);
             return PurOrderM::where('id', '=', $pur_id)
                 ->firstOrFail()
                 ->update([
@@ -118,6 +123,9 @@ trait PurTrait
                     'main_ok_time' => config('app.date.now'),
                 ]);
         } else if ($action == 2) {
+            // TaskM::where('id', '=', $pur->task_id)->firstOrFail();
+            $this->AddNewProg(null, $pur->task_id, $emp_id, "($pur_id) تم احضار المشتريات");
+            $this->SendNewNoti($emp_id, $pur->created_at, __("app.noti.PurInStock"), route('emp.pur.Details', $pur->id), 0);
             return PurOrderM::where('id', '=', $pur_id)
                 ->firstOrFail()
                 ->update([

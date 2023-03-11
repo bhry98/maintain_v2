@@ -7,6 +7,8 @@ use App\Models\Org\MachM;
 use App\Models\Org\WShopM;
 use App\Models\People\ClientM;
 use App\Models\People\EmpM;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -65,7 +67,6 @@ class TaskM extends Model
     public function HoldTime()
     {
         return $this->hasMany(TaskHoldM::class, 'task_id', 'id');
-
     }
     public function Status($stat)
     {
@@ -83,27 +84,13 @@ class TaskM extends Model
     }
     public function LiveTime()
     {
-        if ($this->emp_start_time && $this->emp_start_time != null) {
-            // $h = $this->emp_start_time->format('h');
-            // $m = $this->emp_start_time->format('m');
-            // $s = $this->emp_start_time->format('s');
-            $sec = $this->emp_start_time->diffInSeconds(config('app.date.now'));
-            // $minu = $this->emp_start_time->diffInMinutes(config('app.date.now'));
-            // $houre = $this->emp_start_time->diffInHours(config('app.date.now'));
-            $minu = 0;
-            $houre = 0;
-            // $sec = date('s');
-            $now_h = date('h');
-            $now_m = date('m');
-            $now_s = date('s');
-            if ($sec >= 60) {
-                $minu = $sec % 60;
-            }
-            if ($minu >= 60) {
-                $houre = $minu % 60;
-            }
-            // return $h . ":" .$m%60  . ":" .$s ;
-            return $houre . ":" . $minu  . ":" . $now_s;
+        $start = new DateTime($this->emp_start_time, new DateTimeZone(config('app.timezone')));
+        $end = new DateTime($this->emp_end_time, new DateTimeZone(config('app.timezone')));
+        $diff = $start->diff($end);
+        if ($diff->format('%D') > 00) {
+            return  $diff->format('( %D ) | %H:%I:%S');
+        } else {
+            return  $diff->format('%H:%I:%S');
         }
     }
     public function Prog()

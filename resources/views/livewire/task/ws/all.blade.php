@@ -21,6 +21,7 @@
                             <th>{{ __('app.task.table.Time') }}</th>
                             <th>{{ __('app.task.table.Status') }}</th>
                             <th>{{ __('app.task.table.Ws') }}</th>
+                            <th>{{ __('app.task.N.Emp') }}</th>
                             <th>{{ __('app.task.table.Mang') }}</th>
                         </tr>
                     </thead>
@@ -88,6 +89,20 @@
                                         </td>
                                     @endif
                                     <td>
+                                        @if ($t->Emp)
+                                            {{ $t->Emp->name }}
+                                        @else
+                                            {{-- {{__("app.task.N.EmpNYet")}} --}}
+                                            ----
+                                        @endif
+                                    </td>
+                                    <td>
+                                        {{-- @php
+                                            $time1 = new DateTime('2019-01-23 18:16:25');
+                                            $time2 = new DateTime('2019-01-23 11:36:28');
+                                            $timediff = $time1->diff($time2);
+                                            echo $timediff->format('%y year %m month %d days %h hour %i minute %s second') . '<br/>';
+                                        @endphp --}}
                                         <a href="{{ route('emp.task.Detail', $t->id) }}">
                                             {{ __('app.task.Details') }}
                                         </a>
@@ -194,7 +209,15 @@
 
                                                             <h2>{{ $t->Emp->name }}</h2>
                                                             <h2> {{ $t->Emp->code }}</h2>
-                                                            <h1 >{{ $t->LiveTime() }}</h1>
+                                                            <h1>{{ $t->LiveTime() }}</h1>
+                                                            {{-- @php
+                                                                $start = new DateTime($t->emp_start_time, new DateTimeZone(config('app.timezone')));
+                                                                $end = new DateTime($t->emp_end_time, new DateTimeZone(config('app.timezone')));
+                                                                $diff = $start->diff($end);
+                                                            @endphp
+                                                            <h1>{{ $diff->format(' %h : %i : %s ') }}
+                                                               ({{$end->format('%d | %h : %i : %s ')}}) 
+                                                            </h1> --}}
                                                         </div>
                                                         <div class="text-center col-12 mb-3">
 
